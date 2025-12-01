@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'EduConnect Infrastructure - S3, IAM, and Elastic Beanstalk'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+    AllowedValues:
+      - development
+      - staging
+      - production
+  
+  S3BucketName:
+    Type: String
+    Description: Name for the S3 bucket (must be globally unique)
+    Default: educonnect-uploads
+
+Resources:
+  # S3 Bucket for file uploads
+  UploadsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${S3BucketName}-${Environment}'
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - HEAD
+            AllowedOrigins:
+              - '*'
+            MaxAge: 3600
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldVersions
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 30
+
+  # IAM Role for S3 access
+  S3AccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'EduConnectS3AccessRole-${Environment}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3UploadAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:DeleteObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub '${UploadsBucket}/*'
+                  - !GetAtt UploadsBucket.Arn
+
+  # IAM Instance Profile for EC2
+  S3InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref S3AccessRole
+
+Outputs:
+  S3BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref UploadsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-S3Bucket'
+  
+  S3BucketArn:
+    Description: ARN of the S3 bucket
+    Value: !GetAtt UploadsBucket.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-S3BucketArn'
+  
+  IAMRoleArn:
+    Description: ARN of the IAM role for S3 access
+    Value: !GetAtt S3AccessRole.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-IAMRoleArn'
+
