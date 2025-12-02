@@ -102,9 +102,9 @@ jobs:
         run: |
           docker pull docker.io/hardik0811/mern-app:latest || true
           docker build \
-            --cache-from=docker.io/hardik0811/mern-app:latest \
-            -t docker.io/hardik0811/mern-app:latest \
+            --cache-from=docker.io/hardik0811/educonnect:latest \
+            -t docker.io/hardik0811/educonnect:latest \
             .
 
       - name: Push Docker Image
-        run: docker push docker.io/hardik0811/mern-app:latest
+        run: docker push docker.io/hardik0811/educonnect:latest
