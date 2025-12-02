@@ -9,7 +9,7 @@ on:
 jobs:
 
   # ---------------------------------------------------------
-  # CODE SECURITY: GitHub CodeQL (supports JS/TS)
+  # CODE SECURITY: CodeQL
   # ---------------------------------------------------------
   codeql:
     name: Security Scan (CodeQL)
@@ -20,27 +20,28 @@ jobs:
       security-events: write
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: javascript
 
-      - name: Build CodeQL Database
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Analyze
         uses: github/codeql-action/analyze@v3
 
   # ---------------------------------------------------------
-  # TESTING + LINTING JOB
+  # TESTING JOB
   # ---------------------------------------------------------
   test:
     name: Lint + Backend Tests + Frontend Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -48,23 +49,19 @@ jobs:
           node-version: 18
 
       # -----------------------------------------------------
-      # Install ESLint (Static Code Analysis)
+      # LINTING (soft check, won't break CI)
       # -----------------------------------------------------
-      - name: Install ESLint Tools
-        run: npm install -g eslint eslint-config-standard eslint-plugin-import eslint-plugin-n
-
-      - name: Run ESLint
+      - name: Run ESLint (soft)
         run: |
-          eslint . || echo "ESLint warnings detected"
+          npx eslint . || echo "ESLint issues found (not failing)"
 
       # -----------------------------------------------------
-      # BACKEND TESTING (Jest + Supertest)
+      # BACKEND
       # -----------------------------------------------------
       - name: Install Backend Dependencies
         run: |
           cd backend
-          npm ci
-          npm install --save-dev jest supertest @types/jest
+          npm install
 
       - name: Run Backend Tests
         run: |
@@ -72,18 +69,17 @@ jobs:
           npm test --if-present || echo "No backend tests defined"
 
       # -----------------------------------------------------
-      # FRONTEND TESTING (Vitest + React Testing Library)
+      # FRONTEND
       # -----------------------------------------------------
       - name: Install Frontend Dependencies
         run: |
           cd frontend
-          npm ci
-          npm install --save-dev vitest @testing-library/react @testing-library/jest-dom
+          npm install
 
       - name: Run Frontend Tests
         run: |
           cd frontend
-          npm run test --if-present || echo "No frontend tests defined"
+          npm test --if-present || echo "No frontend tests defined"
 
   # ---------------------------------------------------------
   # DOCKER BUILD & PUSH
@@ -94,10 +90,9 @@ jobs:
     needs: [test]
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
+      - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: hardik0811
@@ -112,5 +107,4 @@ jobs:
             .
 
       - name: Push Docker Image
-        run: |
-          docker push docker.io/hardik0811/mern-app:latest
+        run: docker push docker.io/hardik0811/mern-app:latest
