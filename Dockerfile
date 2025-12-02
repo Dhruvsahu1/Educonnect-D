@@ -1,32 +1,23 @@
-# -----------------------------------------
-# 1) Build Frontend
-# -----------------------------------------
-FROM node:18-alpine AS frontend-build
+# ---------- Dev Image ----------
+FROM node:18-alpine
 
-WORKDIR /app/frontend
+WORKDIR /app
 
-COPY frontend/package*.json ./
-RUN npm ci --silent
+# Copy backend
+COPY backend ./backend
 
-COPY frontend/ ./
-RUN npm run build
+# Copy frontend
+COPY frontend ./frontend
 
-
-# -----------------------------------------
-# 2) Build Backend
-# -----------------------------------------
-FROM node:18-alpine AS backend
-
+# Install backend dependencies
 WORKDIR /app/backend
+RUN npm install --legacy-peer-deps
 
-COPY backend/package*.json ./
-RUN npm ci --silent
-
-COPY backend/ ./
-
-# Copy frontend build into backend public folder
-COPY --from=frontend-build /app/frontend/build ./public
+# Install frontend dependencies
+WORKDIR /app/frontend
+RUN npm install --legacy-peer-deps
 
 EXPOSE 5000
 
-CMD ["npm", "start"]
+WORKDIR /app/backend
+CMD ["node", "server.js"]
