@@ -78,7 +78,7 @@ jobs:
       - name: Run Backend Tests
         run: |
           cd backend
-          npm test --if-present || echo "No backend tests defined"
+          npm test --if-present -- --coverage || echo "No backend tests defined"
 
       # -----------------------------------------------------
       # FRONTEND TESTS
@@ -91,8 +91,15 @@ jobs:
       - name: Run Frontend Tests
         run: |
           cd frontend
-          npm test --if-present || echo "No frontend tests defined"
-
+          npm test --if-present -- --coverage || echo "No frontend tests defined"
+      # ---- UPLOAD COVERAGE ARTIFACTS ----
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports  
+          path: |
+            backend/coverage/lcov.info
+            frontend/coverage/lcov.info
   # ---------------------------------------------------------
   # DOCKER BUILD & PUSH
   # ---------------------------------------------------------
