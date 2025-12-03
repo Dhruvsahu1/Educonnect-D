@@ -16,7 +16,27 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+     
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run Tests & Generate Coverage
+        run: |
+          cd frontend
+          npm test
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: frontend/coverage 
       - name: Download Coverage Artifacts
         uses: actions/download-artifact@v4
         with:
