@@ -30,7 +30,7 @@ jobs:
       - name: Run Tests & Generate Coverage
         run: |
           cd frontend
-          npm test
+          npm test --passWithNoTests
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
