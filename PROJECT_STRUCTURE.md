@@ -101,13 +101,15 @@ EduConnect/
 │   └── README.md                 # Frontend documentation
 │
 ├── infrastructure/                # AWS Infrastructure
-│   ├── cloudformation-template.yaml  # CloudFormation template
+│   ├── main.tf  # Terraform (IaC) file
 │   └── README.md                  # Infrastructure docs
 │
 ├── .github/
 │   └── workflows/                 # CI/CD workflows
-│       ├── backend-deploy.yml
-│       └── frontend-deploy.yml
+│       ├── ci.yml
+│       └── build.yml
+
+
 │
 ├── README.md                      # Main project README
 ├── QUICKSTART.md                  # Quick start guide
@@ -136,7 +138,7 @@ EduConnect/
   - **api/**: API service layer
 
 ### Infrastructure
-- **cloudformation-template.yaml**: AWS infrastructure as code
+- **main.tf**: Terraform- infrastructure as code
 - **.github/workflows/**: GitHub Actions CI/CD
 
 ## File Naming Conventions

@@ -226,7 +226,7 @@ aws s3 mb s3://educonnect-frontend-production
 ### Step 3: Configure S3 for Static Website Hosting
 
 ```bash
-aws s3 website s3://educonnect-frontend-production \
+aws s3 website s3://educonnect-frontend \
   --index-document index.html \
   --error-document index.html
 ```
