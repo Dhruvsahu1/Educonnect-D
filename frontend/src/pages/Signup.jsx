@@ -22,7 +22,18 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await dispatch(signup(formData));
+    
+    // Create a copy of the data to avoid mutating state directly
+    const submissionData = { ...formData };
+
+    // FIX: Remove collegeName if registering as admin
+    // This ensures the backend validator receives 'undefined' for this field
+    // instead of an empty string, allowing the .optional() check to pass.
+    if (submissionData.role === 'admin') {
+      delete submissionData.collegeName;
+    }
+
+    const result = await dispatch(signup(submissionData));
     if (result.type === 'auth/signup/fulfilled') {
       navigate('/feed');
     }
@@ -140,4 +151,3 @@ const Signup = () => {
 };
 
 export default Signup;
-

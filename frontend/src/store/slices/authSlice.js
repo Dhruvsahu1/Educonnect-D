@@ -117,6 +117,13 @@ const authSlice = createSlice({
         state.accessToken = null;
         state.isAuthenticated = false;
       })
+      // --- FIX ADDED HERE ---
+      .addCase(logout.rejected, (state) => {
+        state.user = null;
+        state.accessToken = null;
+        state.isAuthenticated = false;
+      })
+      // ----------------------
       // Get Me
       .addCase(getMe.pending, (state) => {
         state.isLoading = true;
@@ -138,4 +145,3 @@ const authSlice = createSlice({
 
 export const { setCredentials, clearError } = authSlice.actions;
 export default authSlice.reducer;
-

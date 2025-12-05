@@ -22,11 +22,14 @@ const signupValidator = [
     .optional()
     .isIn(['student', 'admin'])
     .withMessage('Role must be either student or admin'),
+  
+  // FIX: Only validate collegeName if role is 'student'
+  // This prevents the "College name cannot be empty" error when signing up as Admin
   body('collegeName')
-    .optional()
+    .if(body('role').equals('student'))
     .trim()
     .notEmpty()
-    .withMessage('College name cannot be empty if provided'),
+    .withMessage('College name is required for students'),
 ];
 
 const loginValidator = [
@@ -45,4 +48,3 @@ module.exports = {
   signupValidator,
   loginValidator,
 };
-
