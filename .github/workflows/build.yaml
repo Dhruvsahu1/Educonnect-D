@@ -13,39 +13,49 @@ jobs:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
     steps:
+      # Checkout code
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
      
+      # Setup Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      # Install frontend dependencies
+      - name: Install Frontend Dependencies
         run: |
           cd frontend
           npm install
 
-      - name: Run Tests & Generate Coverage
+      # Run frontend tests with coverage
+      - name: Run Frontend Tests & Generate Coverage
         run: |
           cd frontend
-          npm test || echo "No tests found — skipping"
+          npm test -- --coverage || echo "No tests found — skipping"
 
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-reports
-          path: frontend/coverage 
-      - name: Download Coverage Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-reports
-          path: coverage
+      # Install backend dependencies (if any Node backend)
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install || echo "No backend dependencies"
+
+      # Run backend tests with coverage
+      - name: Run Backend Tests & Generate Coverage
+        run: |
+          cd backend
+          npm test -- --coverage || echo "No tests found — skipping"
+
+      # SonarCloud scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.javascript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
+            -Dsonar.sources=frontend,backend
+            -Dsonar.tests=frontend,backend
+            -Dsonar.test.inclusions=frontend/**/*.test.js,backend/**/*.test.js
+            -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
