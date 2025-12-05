@@ -12,9 +12,13 @@ const Feed = () => {
   const [showCertForm, setShowCertForm] = useState(false);
   const [page, setPage] = useState(1);
 
+  // --- MODIFICATION STARTS HERE ---
   useEffect(() => {
-    dispatch(fetchPosts({ page, college: user?.collegeName }));
-  }, [dispatch, page, user?.collegeName]);
+    // REMOVED: college: user?.collegeName
+    // We now just send the page number. The backend will interpret this as "get all posts".
+    dispatch(fetchPosts({ page })); 
+  }, [dispatch, page]); 
+  // --- MODIFICATION ENDS HERE ---
 
   const handleLike = (postId) => {
     dispatch(toggleLike(postId));
@@ -93,4 +97,3 @@ const Feed = () => {
 };
 
 export default Feed;
-
