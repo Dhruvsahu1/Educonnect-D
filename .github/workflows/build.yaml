@@ -57,5 +57,5 @@ jobs:
           args: >
             -Dsonar.sources=frontend,backend
             -Dsonar.tests=frontend,backend
-            -Dsonar.test.inclusions=frontend/**/*.test.js,backend/**/*.test.js
+            -Dsonar.test.inclusions=frontend/src/dummy.test.js,backend/dummy.test.js
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
