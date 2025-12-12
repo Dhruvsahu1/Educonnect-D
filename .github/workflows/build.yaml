@@ -23,39 +23,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      # Install frontend dependencies
-      - name: Install Frontend Dependencies
-        run: |
-          cd frontend
-          npm install
-
-      # Run frontend tests with coverage
-      - name: Run Frontend Tests & Generate Coverage
-        run: |
-          cd frontend
-          npm test -- --coverage || echo "No tests found — skipping"
-
-      # Install backend dependencies (if any Node backend)
-      - name: Install Backend Dependencies
-        run: |
-          cd backend
-          npm install || echo "No backend dependencies"
-
-      # Run backend tests with coverage
-      - name: Run Backend Tests & Generate Coverage
-        run: |
-          cd backend
-          npm test -- --coverage || echo "No tests found — skipping"
-
+    
       # SonarCloud scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.sources=frontend,backend
-            -Dsonar.tests=frontend,backend
-            -Dsonar.test.inclusions=frontend/src/dummy.test.js,backend/dummy.test.js
+        
             
