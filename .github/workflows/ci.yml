@@ -59,15 +59,13 @@ jobs:
       # -----------------------------------------------------
       # LINTING
       # -----------------------------------------------------
-      - name: Install ESLint
-        run: |
-          npm install -g eslint eslint-config-standard eslint-plugin-import eslint-plugin-n
+    
 
-      - name: Run ESLint
-        run: |
-          eslint . || echo "ESLint warnings found (not failing CI)"
-
-      # -----------------------------------------------------
+  
+  
+      - name: ESLint
+        uses: stefanoeb/eslint-action@1.0.2      
+        # -----------------------------------------------------
       # BACKEND TESTS
       # -----------------------------------------------------
       - name: Install Backend Dependencies
@@ -92,15 +90,7 @@ jobs:
         run: |
           cd frontend
           npm test   || echo "No frontend tests defined"
-      # ---- UPLOAD COVERAGE ARTIFACTS ----
-      - name: Upload Coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-reports  
-          path: |
-            backend/coverage/lcov.info
-            frontend/coverage/lcov.info
-                
+      
   # ---------------------------------------------------------
   # DOCKER BUILD & PUSH
   # ---------------------------------------------------------
