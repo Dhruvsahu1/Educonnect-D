@@ -8,9 +8,9 @@ on:
 
 jobs:
 
-  # ---------------------------------------------------------
-  # CODE SECURITY (CodeQL)
-  # ---------------------------------------------------------
+# ---------------------------------------------------------
+          # CODE SECURITY (CodeQL)
+# ---------------------------------------------------------
   codeql:
     name: Security Scan (CodeQL)
     runs-on: ubuntu-latest
@@ -42,57 +42,46 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
   # ---------------------------------------------------------
-  # LINT + TEST JOB
+            # LINT + TEST JOB
   # ---------------------------------------------------------
-  test:
-    name: Lint + Test (Backend & Frontend)
+  lint:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      # -----------------------------------------------------
-      # LINTING
-      # -----------------------------------------------------
-    
-
-  
-  
+      - run: npm ci || npm install
       - name: ESLint
-        uses: stefanoeb/eslint-action@1.0.2      
-        # -----------------------------------------------------
-      # BACKEND TESTS
-      # -----------------------------------------------------
+        uses: stefanoeb/eslint-action@1.0.2
+  
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+# -----------------------------------------------------
+              # BACKEND TESTS
+# -----------------------------------------------------
       - name: Install Backend Dependencies
-        run: |
-          cd backend
-          npm ci || npm install
-
+        run: cd backend && npm ci || npm install
       - name: Run Backend Tests
-        run: |
-          cd backend
-          npm test  || echo "No backend tests defined"
-
-      # -----------------------------------------------------
-      # FRONTEND TESTS
-      # -----------------------------------------------------
+        run: cd backend && npm test || echo "No backend tests defined"
+# -----------------------------------------------------
+              # FRONTEND TESTS
+# -----------------------------------------------------        
       - name: Install Frontend Dependencies
-        run: |
-          cd frontend
-          npm ci || npm install
-
+        run: cd frontend && npm ci || npm install
       - name: Run Frontend Tests
         run: |
           cd frontend
           npm test   || echo "No frontend tests defined"
       
   # ---------------------------------------------------------
-  # DOCKER BUILD & PUSH
+          # DOCKER BUILD & PUSH
   # ---------------------------------------------------------
   docker-build:
     name: Build & Push Docker Image
