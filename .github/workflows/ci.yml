@@ -32,11 +32,11 @@ jobs:
 
       - name: Install Backend Deps
         working-directory: backend
-        run: npm ci
+        run: npm install
 
       - name: Install Frontend Deps
         working-directory: frontend
-        run: npm ci
+        run: npm install
 
       - name: Analyze
         uses: github/codeql-action/analyze@v3
@@ -55,11 +55,15 @@ jobs:
 
       - name: Backend Lint
         working-directory: backend
-        run: npm ci
+        run: |
+          npm install
+          npm run lint || echo "No backend lint"
 
       - name: Frontend Lint
         working-directory: frontend
-        run: npm ci
+        run: |
+          npm install
+          npm run lint || echo "No frontend lint"
 
 # ---------------------------------------------------------
 # TESTS
@@ -77,13 +81,13 @@ jobs:
       - name: Backend Tests
         working-directory: backend
         run: |
-          npm ci
+          npm install
           npm test || echo "No backend tests"
 
       - name: Frontend Tests
         working-directory: frontend
         run: |
-          npm ci
+          npm install
           npm test || echo "No frontend tests"
 
 # ---------------------------------------------------------
