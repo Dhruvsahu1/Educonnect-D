@@ -11,69 +11,73 @@ jobs:
 # ---------------------------------------------------------
 # CODE SECURITY (CodeQL)
 # ---------------------------------------------------------
-codeql:
-  runs-on: ubuntu-latest
-  permissions:
-    actions: read
-    contents: read
-    security-events: write
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
-  steps:
-    - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: javascript
-        build-mode: none
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          build-mode: none
 
-    - name: Install Backend Deps
-      working-directory: backend
-      run: npm ci
+      - name: Install Backend Deps
+        working-directory: backend
+        run: npm ci
 
-    - name: Install Frontend Deps
-      working-directory: frontend
-      run: npm ci
+      - name: Install Frontend Deps
+        working-directory: frontend
+        run: npm ci
 
-    - name: Analyze
-      uses: github/codeql-action/analyze@v3
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+
 # ---------------------------------------------------------
 # LINT
 # ---------------------------------------------------------
-lint:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
+  lint:
+    runs-on: ubuntu-latest
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Backend Lint
-      working-directory: backend
-      run: |
-        ls
-        ls package-lock.json
-        npm ci
-        npm run lint || echo "No backend lint"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: Frontend Lint
-      working-directory: frontend
-      run: |
-        ls
-        ls package-lock.json
-        npm ci
-        npm run lint || echo "No frontend lint"
+      - name: Backend Lint
+        working-directory: backend
+        run: |
+          ls
+          ls package-lock.json
+          npm ci
+          npm run lint || echo "No backend lint"
+
+      - name: Frontend Lint
+        working-directory: frontend
+        run: |
+          ls
+          ls package-lock.json
+          npm ci
+          npm run lint || echo "No frontend lint"
+
 # ---------------------------------------------------------
 # TESTS
 # ---------------------------------------------------------
   test:
     runs-on: ubuntu-latest
     needs: lint
+
     steps:
       - uses: actions/checkout@v4
 
