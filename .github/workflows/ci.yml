@@ -62,7 +62,8 @@ jobs:
       - name: Frontend Lint
         working-directory: frontend
         run: |
-          npm install
+          npm install -D eslint @eslint/js globals \
+          eslint-plugin-react eslint-plugin-react-hooks
           npm run lint || echo "No frontend lint"
 
 # ---------------------------------------------------------
