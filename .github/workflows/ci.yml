@@ -106,5 +106,6 @@ jobs:
 
       - name: Build & Push
         run: |
+          cd backend
           docker build -t hardik0811/educonnect:latest .
           docker push hardik0811/educonnect:latest
