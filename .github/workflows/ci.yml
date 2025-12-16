@@ -54,15 +54,15 @@ jobs:
 
       - name: Backend Lint
         working-directory: backend
+        run: npm ci
+      - name: Debug pwd
         run: |
-          npm ci
-          npm run lint || echo "No backend lint script"
+          pwd
+          ls
 
       - name: Frontend Lint
         working-directory: frontend
-        run: |
-          npm ci
-          npm run lint || echo "No frontend lint script"
+        run: npm ci
 
 # ---------------------------------------------------------
 # TESTS
