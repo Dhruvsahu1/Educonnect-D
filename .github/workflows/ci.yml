@@ -152,13 +152,14 @@ jobs:
       # -------------------------------
       # SBOM Dependency Graph (PNG)
       # -------------------------------
-      
       - name: Generate SBOM dependency graph (PNG)
         run: |
-            sudo apt-get update
-            sudo apt-get install -y graphviz python3-pip
-            pip3 install sbom2dot
-            sbom2dot sbom.json | dot -Tpng -o sbom.png
+          sudo apt-get update
+          sudo apt-get install -y graphviz python3-pip
+          pip3 install sbom2dot
+          sbom2dot sbom.json | dot -Tpng -o sbom.png
+          ls -lh sbom.png
+          sbom.png
  
       - name: Upload SBOM graph
         uses: actions/upload-artifact@v4
