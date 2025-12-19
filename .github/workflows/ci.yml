@@ -151,25 +151,32 @@ jobs:
 
       # -------------------------------
       # SBOM Dependency Graph (PNG)
+      # Dependency Graph (Trivy → PNG)
       # -------------------------------
-      - name: Install Graphviz & sbom2dot
+      # -------------------------------
+      # Dependency Graph (Trivy → PNG)
+      # -------------------------------
+      - name: Install Trivy CLI & Graphviz
         run: |
           sudo apt-get update
-          sudo apt-get install -y graphviz
-          python3 -m pip install --user sbom2dot
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          sudo apt-get install -y wget graphviz
+          wget -qO- https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.1_Linux-64bit.tar.gz | tar zx
+          sudo mv trivy /usr/local/bin/
 
-      - name: Generate SBOM graph (PNG)
+      - name: Generate dependency graph
         run: |
-          sbom2dot -i sbom.json -o sbom.dot
-          dot -Tpng sbom.dot -o sbom.png
+          trivy image \
+            --format graph \
+            docker.io/hardik0811/educonnect:latest \
+            > deps.dot
 
-      - name: Upload SBOM image
+          dot -Tpng deps.dot -o deps.png
+
+      - name: Upload dependency graph
         uses: actions/upload-artifact@v4
         with:
-          name: sbom-visual
-          path: sbom.png
-
+          name: trivy-dependency-graph
+          path: dependencies.png
       # -------------------------------
       # Push Image
       # -------------------------------
