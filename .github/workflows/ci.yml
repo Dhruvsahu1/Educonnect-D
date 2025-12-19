@@ -169,9 +169,9 @@ jobs:
             --format graph \
             docker.io/hardik0811/educonnect:latest \
             > deps.dot
-
+      
           dot -Tpng deps.dot -o deps.png
-
+      
       - name: Upload dependency graph
         uses: actions/upload-artifact@v4
         with:
