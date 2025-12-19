@@ -116,11 +116,24 @@ jobs:
         uses: aquasecurity/trivy-action@0.24.0
         with:
           image-ref: docker.io/hardik0811/educonnect:latest
-          format: summary
+          format: table
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+          hide-progress: true
           exit-code: 0
-      
+      - name: Generate SBOM (CycloneDX)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: docker.io/hardik0811/educonnect:latest
+          format: cyclonedx
+          output: sbom.json
+          exit-code: 0
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: educonnect-sbom
+          path: sbom.json
+
       - name: Push Docker image
         run: |
           docker push docker.io/hardik0811/educonnect:latest
