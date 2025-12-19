@@ -152,20 +152,14 @@ jobs:
       # -------------------------------
       # SBOM Dependency Graph (PNG)
       # -------------------------------
-      - name: Generate SBOM dependency graph
+      
+      - name: Generate SBOM dependency graph (PNG)
         run: |
-          npm install -g @cyclonedx/cyclonedx-cli
-          sudo apt-get update
-          sudo apt-get install -y graphviz
-
-          cyclonedx convert \
-            --input-file sbom.json \
-            --input-format json \
-            --output-file sbom.dot \
-            --output-format dot
-
-          dot -Tpng sbom.dot -o sbom.png
-
+            sudo apt-get update
+            sudo apt-get install -y graphviz python3-pip
+            pip3 install sbom2dot
+            sbom2dot sbom.json | dot -Tpng -o sbom.png
+ 
       - name: Upload SBOM graph
         uses: actions/upload-artifact@v4
         with:
