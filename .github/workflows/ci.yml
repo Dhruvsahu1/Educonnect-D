@@ -129,4 +129,4 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push hardik0811/educonnect:latest
+          docker push docker.io/hardik0811/educonnect:latest
