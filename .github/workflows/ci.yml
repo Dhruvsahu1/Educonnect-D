@@ -62,7 +62,7 @@ jobs:
       - name: Frontend Lint
         working-directory: frontend
         run: |
-          npm install           
+          npm install
           npm run lint || echo "No frontend lint"
 
 # ---------------------------------------------------------
@@ -80,16 +80,14 @@ jobs:
 
       - name: Backend Tests
         working-directory: backend
-        run: |
-          echo "No backend tests"
+        run: echo "No backend tests"
 
       - name: Frontend Tests
         working-directory: frontend
-        run: |
-           echo "No frontend tests"
+        run: echo "No frontend tests"
 
 # ---------------------------------------------------------
-# DOCKER BUILD + TRIVY SCAN + PUSH
+# DOCKER BUILD + SECURITY + SBOM
 # ---------------------------------------------------------
   secure-build:
     runs-on: ubuntu-latest
@@ -97,6 +95,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      # 🔹 Trivy DB Cache (speed-up)
+      - name: Cache Trivy DB
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: trivy-db-${{ runner.os }}
+          restore-keys: |
+            trivy-db-
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -106,14 +113,15 @@ jobs:
 
       - name: Build Docker image
         working-directory: backend
-        run: |
-          docker build -t docker.io/hardik0811/educonnect:latest .
+        run: docker build -t docker.io/hardik0811/educonnect:latest .
 
       # -------------------------------
-      # Trivy vulnerability scan 
+      # Trivy vulnerability scan
       # -------------------------------
       - name: Trivy Image Scan
         uses: aquasecurity/trivy-action@0.24.0
+        env:
+          TRIVY_CACHE_DIR: ~/.cache/trivy
         with:
           image-ref: docker.io/hardik0811/educonnect:latest
           format: table
@@ -121,19 +129,51 @@ jobs:
           ignore-unfixed: true
           hide-progress: true
           exit-code: 0
-      - name: Generate SBOM (CycloneDX)
+
+      # -------------------------------
+      # Generate SBOM (CycloneDX)
+      # -------------------------------
+      - name: Generate SBOM
         uses: aquasecurity/trivy-action@0.24.0
+        env:
+          TRIVY_CACHE_DIR: ~/.cache/trivy
         with:
           image-ref: docker.io/hardik0811/educonnect:latest
           format: cyclonedx
           output: sbom.json
           exit-code: 0
+
       - name: Upload SBOM
         uses: actions/upload-artifact@v4
         with:
           name: educonnect-sbom
           path: sbom.json
 
-      - name: Push Docker image
+      # -------------------------------
+      # SBOM Dependency Graph (PNG)
+      # -------------------------------
+      - name: Generate SBOM dependency graph
         run: |
-          docker push docker.io/hardik0811/educonnect:latest
+          npm install -g @cyclonedx/cyclonedx-cli
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
+          cyclonedx convert \
+            --input-file sbom.json \
+            --input-format json \
+            --output-file sbom.dot \
+            --output-format dot
+
+          dot -Tpng sbom.dot -o sbom.png
+
+      - name: Upload SBOM graph
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-graph
+          path: sbom.png
+
+      # -------------------------------
+      # Push Image
+      # -------------------------------
+      - name: Push Docker image
+        run: docker push docker.io/hardik0811/educonnect:latest
