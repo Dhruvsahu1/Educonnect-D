@@ -96,7 +96,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 🔹 Trivy DB Cache (speed-up)
+      #  Trivy DB Cache (speed-up)
       - name: Cache Trivy DB
         uses: actions/cache@v4
         with:
@@ -158,13 +158,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y graphviz
 
-      - name: Generate dependency graph
-        run: |
-          trivy image \
+      - name: Generate dependency graph and install Trivy CLI
+        run: |  
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.50.1/trivy_0.50.1_Linux-64bit.tar.gz
+          tar -xzf trivy_0.50.1_Linux-64bit.tar.gz
+          sudo mv trivy /usr/local/bin/
+                trivy image \
             --format graph \
             docker.io/hardik0811/educonnect:latest \
             > deps.dot
-      
           dot -Tpng deps.dot -o deps.png
       
       - name: Upload dependency graph
