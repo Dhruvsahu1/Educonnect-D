@@ -1,15 +1,15 @@
 name: ci-pipeline
-
 on:
   push:
     branches: ["main"]
-  pull_request:
+#the actions are triggered on both pushing to main branch
+  pull_request:           
     branches: ["main"]
-
+#as well as to each pull requests made to the codebase
 jobs:
 
 # ---------------------------------------------------------
-# CODE SECURITY (CodeQL)
+# CODE SECURITY (CodeQL) to generate CodeQL queries that look for patterns like-SQL injection,Command injection,XSS,Deserialization bugs,Hardcoded secrets,Insecure cryptography,Unsafe auth logic,Path traversal etc
 # ---------------------------------------------------------
   codeql:
     runs-on: ubuntu-latest
@@ -118,10 +118,8 @@ jobs:
   Trivy-image-scan:
     runs-on: ubuntu-latest
     needs: docker-build
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Trivy Image Scan
         uses: aquasecurity/trivy-action@0.24.0
         with:
@@ -129,7 +127,6 @@ jobs:
           format: table
           severity: CRITICAL,HIGH
           exit-code: 0
-
       - name: Push Docker image
         run: |
           docker push hardik0811/educonnect:latest
