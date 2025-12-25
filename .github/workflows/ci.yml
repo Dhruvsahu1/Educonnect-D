@@ -1,15 +1,15 @@
 name: ci-pipeline
-
 on:
   push:
     branches: ["main"]
-  pull_request:
+#the actions are triggered on both pushing to main branch
+  pull_request:           
     branches: ["main"]
-
+#as well as to each pull requests made to the codebase
 jobs:
 
 # ---------------------------------------------------------
-# CODE SECURITY (CodeQL)
+# CODE SECURITY (CodeQL) to generate CodeQL queries that look for patterns like-SQL injection,Command injection,XSS,Deserialization bugs,Hardcoded secrets,Insecure cryptography,Unsafe auth logic,Path traversal etc
 # ---------------------------------------------------------
   codeql:
     runs-on: ubuntu-latest
