@@ -1,10 +1,8 @@
-Here’s a **clean, narrative-style README section** that explains **how the pipeline works**, **why each stage exists**, and **includes the badges**, **without showing any code**.
-You can paste this directly into your `README.md`.
 
 ---
 
-![CI Pipeline](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci-pipeline.yml/badge.svg)
-![CodeQL](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/codeql.yml/badge.svg)
+![CI](https://img.shields.io/github/actions/workflow/status/Dhruvsahu1/Educonnect-D/ci.yml?label=CI%)
+![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
 ![Trivy Scan](https://img.shields.io/badge/Trivy-Image%20Scan-blue?logo=aquasecurity)
 ![Docker](https://img.shields.io/badge/Docker-Build%20%26%20Push-2496ED?logo=docker)
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?logo=node.js)
