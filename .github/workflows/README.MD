@@ -1,7 +1,7 @@
 
 ---
 
-![CI](https://img.shields.io/github/actions/workflow/status/Dhruvsahu1/Educonnect-D/ci.yml?label=CI%)
+![CI](https://img.shields.io/github/actions/workflow/status/Dhruvsahu1/Educonnect-D/ci.yml?label=CI Pipeline)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
 ![Trivy Scan](https://img.shields.io/badge/Trivy-Image%20Scan-blue?logo=aquasecurity)
 ![Docker](https://img.shields.io/badge/Docker-Build%20%26%20Push-2496ED?logo=docker)
@@ -113,8 +113,8 @@ This pipeline reflects **real-world DevSecOps thinking**, not tutorial automatio
 * Containers are scanned before distribution
 * Automation builds trust at every commit
 
-It’s not just CI.
-It’s **responsible software delivery**.
+
+CI helps ensure **secure software supply chain**.
 
 ---
 
