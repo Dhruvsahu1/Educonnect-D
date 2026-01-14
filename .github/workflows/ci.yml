@@ -111,9 +111,13 @@ jobs:
           username: hardik0811
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build Docker image
+      - name: Build Backend Docker image
         working-directory: backend
-        run: docker build -t docker.io/hardik0811/educonnect:latest .
+        run: docker build -t docker.io/hardik0811/educonnect-backend:latest .
+      
+      - name: Build Frontend Image
+        working-directory: frontend
+        run: docker build -t docker.io/hardik0811/educonnect-frontend:latest .
 
       # -------------------------------
       # Trivy vulnerability scan
@@ -123,7 +127,7 @@ jobs:
         env:
           TRIVY_CACHE_DIR: ~/.cache/trivy
         with:
-          image-ref: docker.io/hardik0811/educonnect:latest
+          image-ref: docker.io/hardik0811/educonnect-backend:latest
           format: table
           severity: CRITICAL,HIGH
           ignore-unfixed: true
@@ -138,7 +142,7 @@ jobs:
         env:
           TRIVY_CACHE_DIR: ~/.cache/trivy
         with:
-          image-ref: docker.io/hardik0811/educonnect:latest
+          image-ref: docker.io/hardik0811/educonnect-backend:latest
           format: cyclonedx
           output: sbom.json
           exit-code: 0
@@ -147,5 +151,7 @@ jobs:
       #-------------------------------
       # Push Image
       # -------------------------------
-      - name: Push Docker image
-        run: docker push docker.io/hardik0811/educonnect:latest
+      - name: Push Backend Image
+        run: docker push docker.io/hardik0811/educonnect-backend:latest
+      - name: Push Frontend Image
+        run: docker push docker.io/hardik0811/educonnect-frontend:latest
