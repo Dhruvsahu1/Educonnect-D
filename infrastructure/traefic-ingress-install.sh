@@ -14,9 +14,9 @@ echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.bashrc
 source ~/.bashrc
 
 
-Now both kubectl and helm will always work.
+#Now both kubectl and helm will always work.
 
-#3️⃣ Retry Traefik install (this time it will succeed)
+# 3️⃣ Retry Traefik install (this time it will succeed)
 helm install traefik traefik/traefik \
   --namespace kube-system \
   --create-namespace
