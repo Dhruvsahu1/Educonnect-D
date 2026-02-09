@@ -77,4 +77,4 @@ jobs:
         with:
           sarif_file: results.sarif
       - name: Infracost Actions
-        uses: infracost/actions@v3.0.1
+        uses: infracost/actions@v3.1.0
