@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Use placeholder for runtime replacement via nginx
+// The placeholder will be replaced with actual backend URL at container startup
+const API_BASE = import.meta.env.VITE_API_URL || '__API_URL__';
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE,
   withCredentials: true,
 });
 
@@ -33,7 +35,7 @@ api.interceptors.response.use(
 
       try {
         // Try to refresh the token
-        const response = await axios.post(`${API_URL}/auth/refresh`, {}, {
+        const response = await axios.post(`${API_BASE}/auth/refresh`, {}, {
           withCredentials: true,
         });
 

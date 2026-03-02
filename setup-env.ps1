@@ -1,4 +1,6 @@
+# ======================================================
 # EduConnect Production Environment Setup Script
+# ======================================================
 Write-Host "Setting up EduConnect PRODUCTION environment files..." -ForegroundColor Green
 
 # =========================
@@ -34,24 +36,38 @@ COOKIE_SAME_SITE=none
 $backendEnv | Out-File -FilePath "backend\.env" -Encoding utf8 -Force
 Write-Host "Updated backend/.env" -ForegroundColor Yellow
 
+# =========================
+# Frontend .env (Production / Local fallback)
+# =========================
+try {
+    # Try to get backend-service LoadBalancer IP
+    $backendIP = kubectl get svc backend-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+    if (-not $backendIP) {
+        Write-Host "Backend LoadBalancer not found, using localhost" -ForegroundColor Yellow
+        $backendIP = "localhost"
+    }
+} catch {
+    Write-Host "Error retrieving backend-service IP, using localhost: $_" -ForegroundColor Yellow
+    $backendIP = "localhost"
+}
 
-# =========================
-# Frontend .env (Production)
-# =========================
 $frontendEnv = @"
-# Backend exposed via VM IP and NodePort
-VITE_API_URL=http://YOUR_VM_IP:30080/api
+# Backend URL (dynamic: service or localhost)
+VITE_API_URL=http://backend:5000/api
 "@
 
 $frontendEnv | Out-File -FilePath "frontend\.env" -Encoding utf8 -Force
-Write-Host "Updated frontend/.env" -ForegroundColor Yellow
+Write-Host "Updated frontend/.env with backend URL $backendIP:5000" -ForegroundColor Yellow
 
-
+# =========================
+# Final Message & Next Steps
+# =========================
 Write-Host "`nProduction environment files are ready!" -ForegroundColor Green
 Write-Host "`nNext Steps:" -ForegroundColor Cyan
-Write-Host "1. Replace YOUR_VM_IP with your actual VM public IP"
-Write-Host "2. Replace AWS credentials"
-Write-Host "3. Change JWT secrets"
-Write-Host "4. Rebuild frontend: npm run build"
-Write-Host "5. Upload dist/ to S3"
-Write-Host "6. Redeploy backend in K3s"
+Write-Host "1. Replace AWS credentials in backend/.env"
+Write-Host "2. Change JWT secrets in backend/.env"
+Write-Host "3. Rebuild frontend: npm run build"
+Write-Host "4. Upload frontend/dist/ to S3"
+Write-Host "5. Redeploy backend in K3s"
+Write-Host "6. Test frontend API connectivity"
+Write-Host "7. (Optional) For local development, create frontend/.env.local with VITE_API_URL=http://localhost:5000/api"
