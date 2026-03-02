@@ -5,36 +5,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
-      
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1",
-    "@reduxjs/toolkit": "^2.0.1",
-    "react-redux": "^9.0.4",
-    "axios": "^1.6.2",
-    "lucide-react": "^0.294.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.0.0",	
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.6",
-    "vite": "^5.0.8",
-    
-  }
-}
-{
-  "name": "educonnect-frontend",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run --coverage",
     "lint": "eslint ."
@@ -55,10 +25,10 @@
     "eslint": "^8.57.0",
     "@eslint/js": "^8.57.0",
     "globals": "^13.24.0",
-    "autoprefixer": "^10.0.0",	
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
+    "autoprefixer": "^10.0.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
     "vite": "^5.0.8",
