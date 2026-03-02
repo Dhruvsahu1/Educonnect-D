@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: educonnect-ingress
   annotations:
-    kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.allow-http: "true"
-    ingress.gcp.kubernetes.io/backend-health-check-path: /health 
+    kubernetes.io/ingress.class: "gce"           # Use GCE ingress controller
+    kubernetes.io/ingress.allow-http: "true"     # Enable HTTP
 spec:
   rules:
     - http:
