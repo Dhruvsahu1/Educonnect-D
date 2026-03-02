@@ -18,5 +18,12 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: VITE_API_URL
+            - name: API_URL
               value: "http://backend:5000/api"
+          command: ["/docker-entrypoint.sh"]
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
