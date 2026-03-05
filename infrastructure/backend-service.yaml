@@ -5,7 +5,8 @@ metadata:
 spec:
   selector:
     app: backend
-  type: ClusterIP
   ports:
-    - port: 5000
-      targetPort: 5000
+    - protocol: TCP
+      port: 5000       # Service port
+      targetPort: 5000 # Matches containerPort
+  type: ClusterIP

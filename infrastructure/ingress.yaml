@@ -1,15 +1,16 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1 
 kind: Ingress
 metadata:
   name: educonnect-ingress
   annotations:
-    kubernetes.io/ingress.class: "gce"           # Use GCE ingress controller
-    kubernetes.io/ingress.allow-http: "true"     # Enable HTTP
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "true"
+    ingress.gcp.kubernetes.io/backend-health-check-path: /health
+    ingress.gcp.kubernetes.io/backend-health-check-port: "5000"  # Add this!
 spec:
   rules:
     - http:
         paths:
-          # Backend (API) path
           - path: /api
             pathType: Prefix
             backend:
@@ -17,7 +18,6 @@ spec:
                 name: backend
                 port:
                   number: 5000
-          # Frontend path
           - path: /
             pathType: Prefix
             backend:

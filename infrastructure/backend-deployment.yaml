@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
+  labels:
+    app: backend
 spec:
   replicas: 2
   selector:
@@ -15,6 +17,7 @@ spec:
       containers:
       - name: backend
         image: docker.io/hardik0811/educonnect:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
@@ -25,3 +28,13 @@ spec:
             secretKeyRef:
               name: backend-secrets
               key: JWT_SECRET
+        - name: FRONTEND_URL
+          value: "http://34.111.166.0"  # replace with your ingress frontend IP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
