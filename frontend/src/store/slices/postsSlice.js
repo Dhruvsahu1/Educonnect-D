@@ -1,4 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import React from 'react';
+  
+  const PostsSlice = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default PostsSlice;
+  import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api/api';
 
 export const fetchPosts = createAsyncThunk(

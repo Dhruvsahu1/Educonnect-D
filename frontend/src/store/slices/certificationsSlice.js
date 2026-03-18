@@ -1,4 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import React from 'react';
+  
+  const CertificationsSlice = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default CertificationsSlice;
+  import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api/api';
 
 export const fetchCertifications = createAsyncThunk(

@@ -1,4 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import React from 'react';
+  
+  const MaterialsSlice = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default MaterialsSlice;
+  import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api/api';
 
 export const fetchMaterials = createAsyncThunk(

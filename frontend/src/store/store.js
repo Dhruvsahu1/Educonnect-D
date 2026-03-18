@@ -1,4 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
+import React from 'react';
+  
+  const Store = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default Store;
+  import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import postsReducer from './slices/postsSlice';
 import materialsReducer from './slices/materialsSlice';

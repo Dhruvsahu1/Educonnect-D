@@ -1,4 +1,14 @@
-// frontend/src/store/api/api.js
+import React from 'react';
+  
+  const Api = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default Api;
+  // frontend/src/store/api/api.js
 import axios from 'axios';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api'; // <- USE RELATIVE PATH
