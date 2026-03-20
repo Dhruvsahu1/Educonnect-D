@@ -1,4 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import React from 'react';
+  
+  const AuthSlice = () =>  {
+	return (
+	  <div>
+	  </div>
+	);
+  }
+  
+  export default AuthSlice;
+  import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api/api';
 
 // Async thunks
