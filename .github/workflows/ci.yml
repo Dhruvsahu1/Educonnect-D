@@ -1,3 +1,4 @@
+
 name: ci-pipeline
 
 on:
@@ -127,7 +128,7 @@ jobs:
       # Trivy Backend and Frontend Scan
       # -------------------------------
       - name: Trivy Backend Scan
-        uses: aquasecurity/trivy-action@v0
+        uses: aquasecurity/trivy-action@0.19.0
         env:
           TRIVY_CACHE_DIR: ~/.cache/trivy
         with:
@@ -139,7 +140,7 @@ jobs:
           exit-code: 0
 
       - name: Trivy Frontend Scan
-        uses: aquasecurity/trivy-action@v0
+        uses: aquasecurity/trivy-action@0 .19.0
         with:
           image-ref: docker.io/hardik0811/educonnect-frontend:latest
           format: table
@@ -152,7 +153,7 @@ jobs:
       # SBOM Generation (CycloneDX)
       # -------------------------------
       - name: Generate SBOM
-        uses: aquasecurity/trivy-action@v0
+        uses: aquasecurity/trivy-action@0.19.0
         with:
           image-ref: docker.io/hardik0811/educonnect-backend:latest
           format: cyclonedx
