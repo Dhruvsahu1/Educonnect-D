@@ -1,15 +1,15 @@
 name: ci-pipeline
+
 on:
   push:
     branches: ["main"]
-#the actions are triggered on both pushing to main branch
-  pull_request:           
+  pull_request:
     branches: ["main"]
-#as well as to each pull requests made to the codebase
+
 jobs:
 
 # ---------------------------------------------------------
-# CODE SECURITY (CodeQL) to generate CodeQL queries that look for patterns like-SQL injection,Command injection,XSS,Deserialization bugs,Hardcoded secrets,Insecure cryptography,Unsafe auth logic,Path traversal etc
+# CODE SECURITY (CodeQL)
 # ---------------------------------------------------------
   codeql:
     runs-on: ubuntu-latest
@@ -46,6 +46,7 @@ jobs:
 # ---------------------------------------------------------
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -71,6 +72,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: lint
+
     steps:
       - uses: actions/checkout@v4
 
@@ -96,7 +98,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      #  Trivy DB Cache (speed-up)
+      # Cache Trivy DB
       - name: Cache Trivy DB
         uses: actions/cache@v4
         with:
@@ -105,25 +107,27 @@ jobs:
           restore-keys: |
             trivy-db-
 
+      # Docker Login
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: hardik0811
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build Backend Docker image
+      # Build Images
+      - name: Build Backend Image
         working-directory: backend
         run: docker build -t docker.io/hardik0811/educonnect-backend:latest .
-      
+
       - name: Build Frontend Image
         working-directory: frontend
         run: docker build -t docker.io/hardik0811/educonnect-frontend:latest .
 
       # -------------------------------
-      # Trivy vulnerability scan
+      # Trivy Backend and Frontend Scan
       # -------------------------------
-      - name: Trivy Image Scan
-        uses: aquasecurity/trivy-action@v0.20.0
+      - name: Trivy Backend Scan
+        uses: aquasecurity/trivy-action@v0
         env:
           TRIVY_CACHE_DIR: ~/.cache/trivy
         with:
@@ -133,8 +137,9 @@ jobs:
           ignore-unfixed: true
           hide-progress: true
           exit-code: 0
+
       - name: Trivy Frontend Scan
-        uses: aquasecurity/trivy-action@v0.20.0
+        uses: aquasecurity/trivy-action@v0
         with:
           image-ref: docker.io/hardik0811/educonnect-frontend:latest
           format: table
@@ -144,23 +149,21 @@ jobs:
           exit-code: 0
 
       # -------------------------------
-      # Generate SBOM (CycloneDX)
+      # SBOM Generation (CycloneDX)
       # -------------------------------
       - name: Generate SBOM
-        uses: aquasecurity/trivy-action@0.20.0
-        env:
-          TRIVY_CACHE_DIR: ~/.cache/trivy
+        uses: aquasecurity/trivy-action@v0
         with:
           image-ref: docker.io/hardik0811/educonnect-backend:latest
           format: cyclonedx
           output: sbom.json
           exit-code: 0
 
-
-      #-------------------------------
-      # Push Image
+      # -------------------------------
+      # Push Images
       # -------------------------------
       - name: Push Backend Image
         run: docker push docker.io/hardik0811/educonnect-backend:latest
+
       - name: Push Frontend Image
         run: docker push docker.io/hardik0811/educonnect-frontend:latest
