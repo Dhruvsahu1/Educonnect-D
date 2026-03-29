@@ -6,7 +6,11 @@ metadata:
 type: Opaque
 stringData:
   JWT_SECRET: "educonnect-jwt-secret-change-in-production"
-  JWT_REFRESH_SECRET: "educonnect-refresh-secret-change-in-production"
+  JWT_REFRESH_SECRET: "educonnect-123"
+  AWS_ACCESS_KEY_ID: ""
+  AWS_SECRET_ACCESS_KEY: ""
+  AWS_REGION: "us-east-2"
+  AWS_S3_BUCKET: ""
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,6 +39,7 @@ spec:
         - containerPort: 5000
           name: http
           protocol: TCP
+
         env:
         - name: NODE_ENV
           value: "production"
@@ -42,22 +47,53 @@ spec:
           value: "5000"
         - name: MONGO_URI
           value: "mongodb://mongo:27017/mern"
+
+        # JWT (unchanged)
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: backend-secrets
               key: JWT_SECRET
+
         - name: JWT_REFRESH_SECRET
           valueFrom:
             secretKeyRef:
               name: backend-secrets
               key: JWT_REFRESH_SECRET
+
+        # App config
         - name: FRONTEND_URL
-          value: "*"  # Change to your domain/IP in production
+          value: "*"
         - name: COOKIE_SECURE
-          value: "false"  # Set to "true" for HTTPS
+          value: "false"
         - name: COOKIE_SAME_SITE
           value: "lax"
+
+        # ☁️ AWS Secrets (fixed)
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_ACCESS_KEY_ID
+
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_SECRET_ACCESS_KEY
+
+        - name: AWS_REGION
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_REGION
+
+        - name: AWS_S3_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_S3_BUCKET
+
         resources:
           requests:
             memory: "256Mi"
@@ -65,6 +101,7 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "100m"
+
         livenessProbe:
           httpGet:
             path: /health
@@ -73,6 +110,7 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
+
         readinessProbe:
           httpGet:
             path: /health
