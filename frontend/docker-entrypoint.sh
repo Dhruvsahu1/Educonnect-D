@@ -1,3 +1,4 @@
+#!/bin/sh
 set -e
 
 API_URL=${VITE_API_URL:-/api}
