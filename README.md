@@ -17,7 +17,18 @@
 # EduConnect - Social + Academic Web Application
 
 EduConnect is a full-stack web application that connects students and college administrators in a social and academic environment. Students can share posts, showcase certifications, interact through comments, and access study materials. Administrators can manage colleges, upload study materials, and moderate content.
-[![Hashnode Article](https://cdn.hashnode.com/res/hashnode/image/upload/v1611902473383/CDyAuTy75.png)](https://hardik0811arora.hashnode.dev/educonnect-a-deep-dive-into-cloud-native-security-k3s-orchestration)
+## Hashnode Articles:
+<a href="https://hardik0811arora.hashnode.dev/educonnect-a-deep-dive-into-cloud-native-security-k3s-orchestration">
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1611902473383/CDyAuTy75.png" width="30" height="30" alt="Hashnode Article"/>
+  🛡️ EduConnect: A Deep Dive into Cloud-Native Security & K3s Orchestration
+</a><br>
+
+<a href="https://hardik-arora.hashnode.dev/from-localhost-to-production-my-journey-debugging-mongodb-and-nodejs-on-k3s">
+  <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1611902473383/CDyAuTy75.png" width="30" height="30" alt="Hashnode Article"/>
+From "Localhost" to Production: My Journey Debugging🛠️ MongoDB🛢️ and Node.js on k3s☸️</a>
+---
+
+
 ## Project Structure
 
 ```
@@ -45,10 +56,10 @@ EduConnect/
 - Axios for API calls
 
 ### Deployment
-- AWS S3 + CloudFront (Frontend)
-- AWS Elastic Beanstalk or ECS Fargate (Backend)
-- MongoDB Atlas (Database)
-- CloudFormation/Terraform (Infrastructure as Code)
+- Hosted On K3s over VM
+- Frontend and Backend Deployments and services exposed over Nginx ingress
+- MongoDB Running as StatefulSet in cluster
+  
 
 ## Quick Start
 
@@ -125,7 +136,7 @@ See `backend/README.md` for detailed API endpoints documentation.
 
 ## Deployment
 
-See `infrastructure/README.md` for AWS deployment instructions.
+Checkout [Infrastructure/README.md(branch-production)](https://github.com/barbaria888/Educonnect/tree/production/infrastructure)
 
 ## Security
 
