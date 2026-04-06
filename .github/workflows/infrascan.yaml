@@ -6,7 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - name: Fix permissions
+        run: chmod -R 777 .
       - name: Run InfraScan
         run: |
           docker run --rm \
