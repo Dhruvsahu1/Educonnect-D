@@ -14,11 +14,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t  docker.io/hardik0811/educonnect-backend:latest .
+        run: docker build -t  docker.io/hardik0811/educonnect-backend:latest ./Educonnect-D/backend
 
       - name: Run app container
         run: |
-         docker run -d -p docker.io/hardik0811/educonnect-backend:latest .  
+         docker run -d -p 5000:5000 docker.io/hardik0811/educonnect-backend:latest .  
           echo "Waiting for app to start..."
           for i in {1..10}; do
             curl -s http://localhost:5000 && break
