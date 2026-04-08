@@ -24,7 +24,11 @@ jobs:
             curl -s http://localhost:5000 && break
             sleep 3
           done
-
+      - name: Debug container
+        run: |
+          docker ps
+          docker logs app
+          curl -v http://localhost:5000
       - name: Run ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.8.0
         with:
