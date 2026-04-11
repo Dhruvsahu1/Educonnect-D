@@ -1,47 +1,35 @@
 #!/bin/bash
-# Prometheus & Grafana Installation Script - Minimal Fuss
-# Usage: ./install-monitoring.sh
 
-set -e
+echo "Installing Prometheus & Grafana..."
 
-NAMESPACE="monitoring"
-HELM_RELEASE="prometheus"
+# Install Helm if not present
+command -v helm >/dev/null 2>&1 || {
+  echo "Installing Helm..."
+  curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+}
 
-echo "Installing Prometheus & Grafana to namespace: $NAMESPACE"
-
-# Check if Helm is installed
-if ! command -v helm &> /dev/null; then
-    echo "Helm not found. Installing Helm..."
-    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-fi
-
-# Add Prometheus community repo if not exists
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 2>/dev/null || true
+# Add repo
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts >/dev/null 2>&1
 helm repo update
 
-# Install kube-prometheus-stack
-helm upgrade --install "$HELM_RELEASE" prometheus-community/kube-prometheus-stack \
-    --namespace "$NAMESPACE" \
-    --create-namespace \
-    --wait \
-    --timeout 10m \
-    --set prometheus.prometheusSpec.retention=7d \
-    --set grafana.persistence.enabled=true \
-    --set grafana.persistence.size=10Gi
+# Install stack
+helm install monitoring prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --create-namespace
 
 echo ""
-echo "Prometheus & Grafana installed successfully!"
+echo "✅ Installed!"
+
 echo ""
-echo "To access Prometheus UI, run:"
-echo "  kubectl port-forward svc/prometheus-kube-prometheus -n $NAMESPACE 9090:9090"
-echo "  Then open: http://localhost:9090"
+echo "👉 Access Grafana:"
+echo "kubectl port-forward svc/monitoring-grafana -n monitoring 3000:80"
+
 echo ""
-echo "To access Grafana, run:"
-echo "  kubectl port-forward svc/prometheus-grafana -n $NAMESPACE 3000:80"
-echo "  Then open: http://localhost:3000"
+echo "👉 Access Prometheus:"
+echo "kubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090"
+
 echo ""
-echo "Grafana default credentials:"
-echo "  admin / prom-operator"
-echo ""
-echo "To get Grafana password, run:"
-echo "  kubectl get secret prometheus-grafana -n $NAMESPACE -o jsonpath=\"{.data.admin-password}\" | base64 -d"
+echo "👉 Grafana Login:"
+echo "username: admin"
+echo "password:"
+echo "kubectl get secret monitoring-grafana -n monitoring -o jsonpath='{.data.admin-password}' | base64 -d"
