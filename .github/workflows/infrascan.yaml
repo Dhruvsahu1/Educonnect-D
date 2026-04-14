@@ -1,4 +1,4 @@
-name: InfraScan Security Audit
+name: InfraScan Infrastructure Audit
 on: [push, pull_request]
 
 jobs:
