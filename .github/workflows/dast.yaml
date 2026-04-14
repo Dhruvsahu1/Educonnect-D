@@ -43,11 +43,12 @@ jobs:
           docker logs app
           curl -v http://localhost:5000
       - name: Run ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.8.0
+        uses: zaproxy/action-full-scan@v0.9.0
         with:
           target: 'http://localhost:5000'
           fail_action: false
           cmd_options: '-a'
+          allow_issue_writing: false
 
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v4
