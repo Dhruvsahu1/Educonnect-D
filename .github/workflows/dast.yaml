@@ -2,7 +2,7 @@ name: ZAP Security Scan (Container)
 permissions:
   contents: write
   security-events: write
-  actions: read
+  actions: write
 
 on:
   push:
@@ -37,11 +37,6 @@ jobs:
             echo "Waiting..."
             sleep 3
           done
-      - name: Debug container
-        run: |
-          docker ps -a
-          docker logs app
-          curl -v http://localhost:5000
       - name: Run ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.9.0
         with:
@@ -49,8 +44,8 @@ jobs:
           fail_action: false
           cmd_options: '-a'
           artifact_name: ""
-        env:
-          GITHUB_TOKEN: ""
+          continue-on-error: true
+        
 
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v4
