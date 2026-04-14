@@ -1,6 +1,6 @@
 
 ---
-[![🦂 ZAP Security (DAST - Zero Trust)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml)
+[!🦂 ZAP Security (DAST - Zero Trust)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Dhruvsahu1/Educonnect-D/badge)](https://securityscorecards.dev/viewer/?uri=github.com/Dhruvsahu1/Educonnect-D)
 ![CI](https://img.shields.io/github/actions/workflow/status/Dhruvsahu1/Educonnect-D/ci.yml?label=CI%20Pipeline)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
