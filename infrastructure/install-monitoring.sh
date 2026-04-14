@@ -1,22 +1,27 @@
 #!/bin/bash
 
+set -e
+
 echo "Installing Prometheus & Grafana..."
 
-# Install Helm if not present
+# k3s kubeconfig
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+kubectl get nodes
+
 command -v helm >/dev/null 2>&1 || {
   echo "Installing Helm..."
   curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 }
 
-# Add repo
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts >/dev/null 2>&1
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
 helm repo update
 
-# Install stack
-helm install monitoring prometheus-community/kube-prometheus-stack \
+helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
   --namespace monitoring \
   --create-namespace
 
+echo "Installed successfully"
 echo ""
 echo "✅ Installed!"
 
