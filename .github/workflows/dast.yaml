@@ -18,16 +18,20 @@ jobs:
 
       - name: Run app container
         run: |
-         docker run -d -p 5000:5000 docker.io/hardik0811/educonnect-backend:latest .  
+         docker run -d -p 5000:5000 docker.io/hrdik0811/educonnect-backend:latest 
           echo "Waiting for app to start..."
-          for i in {1..10}; do
-            curl -s http://localhost:5000 && break
-            sleep 3
+          for i in {1..15}; do
+          if curl -s http://localhost:5000 > /dev/null; then
+          echo "App is up!"
+          break
+          fi
+          echo "Waiting..."
+          sleep 3
           done
       - name: Debug container
         run: |
-          docker ps
-          docker logs app
+          docker ps -a
+          
           curl -v http://localhost:5000
       - name: Run ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.8.0
