@@ -1,4 +1,4 @@
-name: ZAP Security Scan (Container)
+name: 🦂 ZAP Security (DAST - Zero Trust)
 permissions:
   contents: write
   security-events: write
