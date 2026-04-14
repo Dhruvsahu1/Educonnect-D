@@ -1,5 +1,6 @@
 
 ---
+[![🦂 ZAP Security (DAST - Zero Trust)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Dhruvsahu1/Educonnect-D/badge)](https://securityscorecards.dev/viewer/?uri=github.com/Dhruvsahu1/Educonnect-D)
 ![CI](https://img.shields.io/github/actions/workflow/status/Dhruvsahu1/Educonnect-D/ci.yml?label=CI%20Pipeline)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
@@ -7,8 +8,6 @@
 ![Trivy Scan](https://img.shields.io/badge/Trivy-Image%20Scan-blue?logo=aquasecurity)
 ![SBOM](https://img.shields.io/badge/SBOM-CycloneDX-informational)
 ![Docker](https://img.shields.io/badge/Docker-Build%20%26%20Push-2496ED?logo=docker)
-![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?logo=node.js)
-![DevSecOps](https://img.shields.io/badge/DevSecOps-Enabled-critical)
 ![Container Security](https://img.shields.io/badge/Container%20Security-Trivy-informational)
 ![Cloud Native](https://img.shields.io/badge/Cloud--Native-Kubernetes-326CE5?logo=kubernetes)
 
