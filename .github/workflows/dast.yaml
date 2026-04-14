@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  zap_scan:
+  zap_security_scan:
     runs-on: ubuntu-latest
 
     steps:
@@ -53,5 +53,5 @@ jobs:
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v4
         with:
-          name: zap-report
+          name: zap_report
           path: report_html.html
