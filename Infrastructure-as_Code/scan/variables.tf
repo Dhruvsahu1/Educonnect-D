@@ -3,15 +3,19 @@ variable "location" {
 }
 
 variable "resource_group_name" {
-  default = "educonnect-rg"
+  default = "Educonnect"
+}
+
+variable "vm_name" {
+  default = "myVm"
 }
 
 variable "vm_size" {
-  default = "Standard_B2s"
+  default = "Standard_B2als_v2"
 }
 
 variable "admin_username" {
-  default = "azureuser"
+  default = "hardik999"
 }
 
 variable "public_key_path" {
