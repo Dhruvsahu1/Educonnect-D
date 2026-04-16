@@ -1,13 +1,15 @@
 
 ---
+
+[![🦂 ZAP Security (DAST - Zero Trust)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml)
+[![CI Pipeline 🔁 → 🔍 → 🧹 → 🧪 → 🐳 → 🦂 → 📦](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci.yml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Dhruvsahu1/Educonnect-D/badge)](https://securityscorecards.dev/viewer/?uri=github.com/Dhruvsahu1/Educonnect-D)
-![CI](https://img.shields.io/github/actions/workflow/status/Dhruvsahu1/Educonnect-D/ci.yml?label=CI%20Pipeline)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
 [![SonarQube Cloud](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/build.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/build.yaml)
 ![Trivy Scan](https://img.shields.io/badge/Trivy-Image%20Scan-blue?logo=aquasecurity)
 ![SBOM](https://img.shields.io/badge/SBOM-CycloneDX-informational)
+[![InfraScan Security Audit](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/infrascan.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/infrascan.yaml)
 ![Docker](https://img.shields.io/badge/Docker-Build%20%26%20Push-2496ED?logo=docker)
-![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?logo=node.js)
 ![DevSecOps](https://img.shields.io/badge/DevSecOps-Enabled-critical)
 ![Container Security](https://img.shields.io/badge/Container%20Security-Trivy-informational)
 ![Cloud Native](https://img.shields.io/badge/Cloud--Native-Kubernetes-326CE5?logo=kubernetes)
@@ -43,8 +45,19 @@ The pipeline starts with **SAST using CodeQL**.
 
 👉 **Goal:** Catch vulnerabilities early.
 
----
 
+---
+🕸️ Dynamic Application Security Testing (DAST) — OWASP ZAP
+Validating the application at runtime:
+
+Actively scans the running application/container to find dynamic vulnerabilities
+
+Detects runtime flaws that static analysis (SAST) might miss
+
+Tests for real-world exploits like improper authentication, misconfigured security headers, and runtime injections
+
+👉 Goal: Verify the security posture from an active attacker's perspective.
+---
 ## 🧹 Linting — Code Quality Gate
 
 After security validation:
@@ -112,6 +125,19 @@ After passing all checks:
 - Ready for deployment
 
 ---
+🏗️ Infrastructure Security & Cost Audit — InfraScan
+Before any infrastructure is modified, we validate the underlying architecture.
+
+What happens:
+Scans Infrastructure as Code (IaC) manifests and templates
+
+Performs a comprehensive cost audit to prevent budget overruns
+
+Validates configurations against security best practices
+
+👉 Goal: Ensure the foundation we deploy on is secure, compliant, and cost-effective.
+
+---
 
 ## 🧠 Why This Pipeline Matters
 
@@ -119,8 +145,10 @@ This reflects **real DevSecOps practices**:
 
 - Security-first (Shift Left)
 - Quality gates enforced
+- Infrastructure and Cost Auditing (IaC)
 - Container vulnerability scanning
 - SBOM generation
+- Runtime validation (DAST)
 - Modular, production-style pipeline
 
 ---
@@ -131,7 +159,7 @@ This reflects **real DevSecOps practices**:
 - 🏷️ Image Versioning with Git SHA
 - 🏷️ Versioned Docker tagging (replace `latest`)
 - ❌ Fail builds on critical vulnerabilities
-- 🔍 Secrets scanning (GitLeaks)
+
 
 
 ---
@@ -140,12 +168,19 @@ This reflects **real DevSecOps practices**:
 
 This pipeline ensures:
 
-✔ Secure code  
-✔ Clean code  
-✔ Tested code  
-✔ Safe container images  
-✔ Transparent dependencies  
+✔ Secure code
 
+✔ Secure and cost-effective infrastructure
+
+✔ Clean code
+
+✔ Tested code
+
+✔ Safe container images
+
+✔ Transparent dependencies
+
+✔ Validated runtime security
 
 
 ---
