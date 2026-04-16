@@ -24,8 +24,4 @@ jobs:
         with:
           name: infrascan-report
           path: infrascan-report.html
-      - name: Upload Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: infrascan-report
-          path: infrascan-report.html
+      
