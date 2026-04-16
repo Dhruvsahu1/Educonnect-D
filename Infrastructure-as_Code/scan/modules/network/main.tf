@@ -30,6 +30,7 @@ resource "azurerm_network_security_rule" "ssh" {
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.resource_group_name
+  source_port_range = "*"
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
@@ -42,6 +43,7 @@ resource "azurerm_network_security_rule" "http" {
   protocol                    = "Tcp"
   destination_port_range      = "80"
   source_address_prefix       = "*"
+  source_port_range = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.nsg.name
@@ -55,6 +57,7 @@ resource "azurerm_network_security_rule" "https" {
   access                      = "Allow"
   protocol                    = "Tcp"
   destination_port_range      = "443"
+  source_port_range = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.resource_group_name
