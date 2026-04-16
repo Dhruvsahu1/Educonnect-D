@@ -1,5 +1,11 @@
 name: InfraScan Infrastructure Audit
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - implementing_IAC
+  pull_request:
+    branches:
+      - implementing_IAC
 
 jobs:
   infrascan:
