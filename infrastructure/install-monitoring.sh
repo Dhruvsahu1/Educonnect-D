@@ -5,7 +5,7 @@ set -e
 echo "Installing Prometheus & Grafana..."
 
 # k3s kubeconfig
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
 
 kubectl get nodes
 
