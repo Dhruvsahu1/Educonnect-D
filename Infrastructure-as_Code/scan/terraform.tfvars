@@ -1,0 +1,5 @@
+location            = "Central India"
+resource_group_name = "Educonnect"
+vm_name             = "myVm"
+vm_size             = "Standard_B2als_v2"
+admin_username      = "hardik999"
