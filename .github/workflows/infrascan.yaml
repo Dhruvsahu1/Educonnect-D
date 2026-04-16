@@ -1,31 +1,33 @@
-name: InfraScan Security Audit
-on: [push, pull_request]
-
-jobs:
-  infrascan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Fix permissions
-        run: chmod -R 777 .
-      - name: Run InfraScan
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/scan \
-            soldevelo/infrascan:latest \
-            --scanner comprehensive \
-            --format html \
-            --out /scan/infrascan-report.html \
-            --fail-on high_critical
-
-      - name: Upload HTML Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: infrascan-report
-          path: infrascan-report.html
-      - name: Upload Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: infrascan-report
-          path: infrascan-report.html
+  name: InfraScan Infrastructure Audit
+  on:
+    push:
+      branches:
+        - implementing_IAC
+    pull_request:
+      branches:
+        - implementing_IAC
+  
+  jobs:
+    infrascan:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Fix permissions
+          run: chmod -R 777 .
+        - name: Run InfraScan
+          run: |
+            docker run --rm \
+              -v ${{ github.workspace }}:/scan \
+              soldevelo/infrascan:latest \
+              --scanner comprehensive \
+              --format html \
+              --out /scan/infrascan-report.html \
+              --fail-on high_critical
+  
+        - name: Upload HTML Report
+          uses: actions/upload-artifact@v4
+          if: always()
+          with:
+            name: infrascan-report
+            path: infrascan-report.html
+        
