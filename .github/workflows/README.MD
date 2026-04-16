@@ -44,7 +44,6 @@ The pipeline starts with **SAST using CodeQL**.
 👉 **Goal:** Catch vulnerabilities early.
 
 ---
-
 ## 🧹 Linting — Code Quality Gate
 
 After security validation:
