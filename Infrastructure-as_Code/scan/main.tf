@@ -13,8 +13,9 @@ module "vm" {
   source              = "./modules/vm"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
-
+  vm_name        = var.vm_name
   subnet_id       = module.network.subnet_id
+  nsg_id         = module.network.nsg_id
   admin_username  = var.admin_username
   public_key_path = var.public_key_path
   vm_size         = var.vm_size
