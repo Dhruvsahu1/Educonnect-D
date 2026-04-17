@@ -1,7 +1,7 @@
 name: Provision Infra + Setup K3s
 
 on:
-  workflow_dispatch:
+  
   push:
     branches:
       - implementing-IAC
