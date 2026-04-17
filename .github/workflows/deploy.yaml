@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - implementing-IAC
-      - main
+      
     paths:
       - 'Infrastructure-as_Code/**'
 
