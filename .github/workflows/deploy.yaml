@@ -25,9 +25,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Debug Azure Secrets
         run: |
-          echo "CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}"
-          echo "TENANT_ID=${{ secrets.AZURE_TENANT_ID }}"
-          echo "SUB_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          echo "CLIENT_ID=${{ secrets.AZURE_CLIENT_CREDENTIALS }}"
       # -----------------------------
       # Azure Login
       # -----------------------------
