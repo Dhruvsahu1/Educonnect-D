@@ -47,7 +47,7 @@ The pipeline starts with **SAST using CodeQL**.
 
 
 ---
-🕸️ Dynamic Application Security Testing (DAST) — OWASP ZAP
+## 🕸️ Dynamic Application Security Testing (DAST) — OWASP ZAP
 Validating the application at runtime:
 
 Actively scans the running application/container to find dynamic vulnerabilities
