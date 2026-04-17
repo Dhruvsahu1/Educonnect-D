@@ -1,16 +1,17 @@
 name: Provision Infra + Setup K3s
-permissions:
-  id-token: write
-  contents: read
 
 on:
-  
+  workflow_dispatch:
   push:
     branches:
       - implementing-IAC
       - main
     paths:
       - 'Infrastructure-as_Code/**'
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   terraform:
@@ -26,11 +27,18 @@ jobs:
       # -----------------------------
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Debug Azure Secrets
-        run: |
-          echo "CLIENT_ID=${{ secrets.AZURE_CLIENT_CREDENTIALS }}"
+
       # -----------------------------
-      # Azure Login
+      # Debug (safe check)
+      # -----------------------------
+      - name: Debug Secrets
+        run: |
+          echo "CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}"
+          echo "TENANT_ID=${{ secrets.AZURE_TENANT_ID }}"
+          echo "SUB_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+
+      # -----------------------------
+      # Azure Login (OIDC)
       # -----------------------------
       - name: Azure Login
         uses: azure/login@v2
@@ -38,7 +46,8 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-    # -----------------------------
+
+      # -----------------------------
       # Setup Terraform
       # -----------------------------
       - name: Setup Terraform
@@ -63,7 +72,7 @@ jobs:
         run: terraform -chdir=$TF_DIR apply -auto-approve tfplan
 
       # -----------------------------
-      # Get VM Public IP
+      # Get VM IP
       # -----------------------------
       - name: Get VM IP
         id: vmip
@@ -73,16 +82,16 @@ jobs:
           echo "vm_ip=$VM_IP" >> $GITHUB_OUTPUT
 
       # -----------------------------
-      # Setup SSH Key
+      # Setup SSH
       # -----------------------------
-      - name: Setup SSH
+      - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       # -----------------------------
-      # Wait for VM to be ready
+      # Wait for VM
       # -----------------------------
       - name: Wait for SSH
         run: |
@@ -112,7 +121,7 @@ jobs:
           sudo mv kubectl /usr/local/bin/
 
       # -----------------------------
-      # Test cluster
+      # Verify cluster
       # -----------------------------
       - name: Verify cluster
         run: |
