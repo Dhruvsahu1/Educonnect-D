@@ -2,10 +2,10 @@
   on:
     push:
       branches:
-        - implementing_IAC
+        - implementing-IAC
     pull_request:
       branches:
-        - implementing_IAC
+        - implementing-IAC
   jobs:
     infrascan:
       runs-on: ubuntu-latest
