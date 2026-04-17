@@ -1,0 +1,120 @@
+name: Provision Infra + Setup K3s
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - implementing-IAC
+      - main
+    paths:
+      - 'Infrastructure-as_Code/**'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_DIR: Infrastructure-as_Code/scan
+      VM_USER: hardik999
+
+    steps:
+      # -----------------------------
+      # Checkout repo
+      # -----------------------------
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Debug Azure Secrets
+        run: |
+          echo "CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}"
+          echo "TENANT_ID=${{ secrets.AZURE_TENANT_ID }}"
+          echo "SUB_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+      # -----------------------------
+      # Azure Login
+      # -----------------------------
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      # -----------------------------
+      # Setup Terraform
+      # -----------------------------
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # -----------------------------
+      # Terraform Init
+      # -----------------------------
+      - name: Terraform Init
+        run: terraform -chdir=$TF_DIR init
+
+      # -----------------------------
+      # Terraform Plan
+      # -----------------------------
+      - name: Terraform Plan
+        run: terraform -chdir=$TF_DIR plan -out=tfplan
+
+      # -----------------------------
+      # Terraform Apply
+      # -----------------------------
+      - name: Terraform Apply
+        run: terraform -chdir=$TF_DIR apply -auto-approve tfplan
+
+      # -----------------------------
+      # Get VM Public IP
+      # -----------------------------
+      - name: Get VM IP
+        id: vmip
+        run: |
+          VM_IP=$(terraform -chdir=$TF_DIR output -raw vm_public_ip)
+          echo "VM_IP=$VM_IP" >> $GITHUB_ENV
+          echo "vm_ip=$VM_IP" >> $GITHUB_OUTPUT
+
+      # -----------------------------
+      # Setup SSH Key
+      # -----------------------------
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      # -----------------------------
+      # Wait for VM to be ready
+      # -----------------------------
+      - name: Wait for SSH
+        run: |
+          echo "Waiting for VM..."
+          for i in {1..20}; do
+            if ssh -o StrictHostKeyChecking=no $VM_USER@$VM_IP "echo ok"; then
+              break
+            fi
+            sleep 10
+          done
+
+      # -----------------------------
+      # Fetch kubeconfig
+      # -----------------------------
+      - name: Get kubeconfig
+        run: |
+          ssh -o StrictHostKeyChecking=no $VM_USER@$VM_IP "sudo cat /etc/rancher/k3s/k3s.yaml" > kubeconfig
+          sed -i "s/127.0.0.1/$VM_IP/g" kubeconfig
+
+      # -----------------------------
+      # Install kubectl
+      # -----------------------------
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      # -----------------------------
+      # Test cluster
+      # -----------------------------
+      - name: Verify cluster
+        run: |
+          export KUBECONFIG=$(pwd)/kubeconfig
+          kubectl get nodes
