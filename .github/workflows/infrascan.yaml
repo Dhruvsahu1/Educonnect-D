@@ -6,7 +6,6 @@
     pull_request:
       branches:
         - implementing_IAC
-  
   jobs:
     infrascan:
       runs-on: ubuntu-latest
