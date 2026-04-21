@@ -5,7 +5,7 @@
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Dhruvsahu1/Educonnect-D/badge)](https://securityscorecards.dev/viewer/?uri=github.com/Dhruvsahu1/Educonnect-D)
 [![CI Pipeline 🔁 → 🔍 → 🧹 → 🧪 → 🐳 → 🦂 → 📦](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci.yml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci.yml)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
-[![SonarQube Cloud](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/build.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/build.yaml)
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=Dhruvsahu1_Educonnect-D)
 ![Trivy Scan](https://img.shields.io/badge/Trivy-Image%20Scan-blue?logo=aquasecurity)
 ![SBOM](https://img.shields.io/badge/SBOM-CycloneDX-informational)
 ![Docker](https://img.shields.io/badge/Docker-Build%20%26%20Push-2496ED?logo=docker)
