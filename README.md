@@ -11,7 +11,7 @@
 ![Docker](https://img.shields.io/badge/Docker-Build%20%26%20Push-2496ED?logo=docker)
 ![Container Security](https://img.shields.io/badge/Container%20Security-Trivy-informational)
 ![Cloud Native](https://img.shields.io/badge/Cloud--Native-Kubernetes-326CE5?logo=kubernetes)
-
+[![Verified by InfraScan](https://img.shields.io/badge/Verified_by-SolDevelo_InfraScan-0052cc?style=flat&logo=security)](https://github.com/soldevelo/infrascan)
 ---
 
 # EduConnect - Social + Academic Web Application
