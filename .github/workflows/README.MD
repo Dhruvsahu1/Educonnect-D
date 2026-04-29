@@ -1,11 +1,10 @@
 
 ---
-
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=Dhruvsahu1_Educonnect-D)
 [![🦂 ZAP Security (DAST - Zero Trust)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/dast.yaml)
 [![CI Pipeline 🔁 → 🔍 → 🧹 → 🧪 → 🐳 → 🦂 → 📦](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci.yml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Dhruvsahu1/Educonnect-D/badge)](https://securityscorecards.dev/viewer/?uri=github.com/Dhruvsahu1/Educonnect-D)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-blueviolet?logo=github)
-[![SonarQube Cloud](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/build.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/build.yaml)
 ![Trivy Scan](https://img.shields.io/badge/Trivy-Image%20Scan-blue?logo=aquasecurity)
 ![SBOM](https://img.shields.io/badge/SBOM-CycloneDX-informational)
 [![InfraScan Security Audit](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/infrascan.yaml/badge.svg)](https://github.com/Dhruvsahu1/Educonnect-D/actions/workflows/infrascan.yaml)
@@ -155,7 +154,7 @@ This reflects **real DevSecOps practices**:
 - SBOM generation
 - Runtime validation (DAST)
 - Modular, production-style pipeline
-<img width="1536" height="1024" alt="full-CNCF" src="https://github.com/user-attachments/assets/35dff08c-14fd-4d4d-abc6-dcb540167926" />
+
 
 ---
 
@@ -173,7 +172,7 @@ This reflects **real DevSecOps practices**:
 ## ⚡ Summary
 
 This pipeline ensures:
-
+<img width="2528" height="1684" alt="Architecture-flow" src="https://github.com/user-attachments/assets/2ac89d18-f341-48b1-879e-33f4fd9f261b" />
 ✔ Secure code
 
 ✔ Secure and cost-effective infrastructure
