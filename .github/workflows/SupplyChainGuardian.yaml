@@ -1,0 +1,21 @@
+name: Supply Chain Guardian
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'  # Nightly CVE check
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  guardian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Supply Chain Guardian
+        uses: barbaria888/SupplyChain-Guardian-AI@v1
+        with:
+          dockerfile: './bakend/Dockerfile'
