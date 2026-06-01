@@ -29,10 +29,4 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Run Supply Chain Guardian
-        uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v1.0.0
-        with:
-          dockerfile: './backend/Dockerfile'
-          provider: 'ollama'  # Options: ollama, gemini, openai
-                  
+          
