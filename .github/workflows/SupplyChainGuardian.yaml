@@ -16,6 +16,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Supply Chain Guardian
-        uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v1.0.0
+        uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v1.2.0
         with:
           dockerfile: './bakend/Dockerfile'
