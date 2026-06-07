@@ -3,8 +3,8 @@
 
 ### Secure Cloud-Native Social & Academic Platform
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain-wordmark.svg" height="90" alt="Kubernetes" /> &nbsp;
-<img src="https://k3s.io/img/k3s-logo-light.svg" height="30" alt="K3s" /> &nbsp;
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain-wordmark.svg" height="80" alt="Kubernetes" /> &nbsp;
+<img src="https://k3s.io/img/k3s-logo-light.svg" height="40" alt="K3s" /> &nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" height="60" alt="Google Cloud" /> &nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" height="60" alt="GitHub Actions" /> &nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" height="60" alt="Terraform" /> &nbsp;
