@@ -18,4 +18,4 @@ jobs:
       - name: Run Supply Chain Guardian
         uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v1.2.0
         with:
-          dockerfile: './bakend/Dockerfile'
+          dockerfile: './backend/Dockerfile'
