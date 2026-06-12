@@ -177,7 +177,7 @@ jobs:
         with:
           dockerfile: "./backend/Dockerfile"
           provider: "openai"
-          model: "deepseek-ai/deepseek-v4-flash"
+          model: "meta/llama-3.1-70b-instruct"
           policy-preset: "strict"
           # FIXED: Passed as a direct action parameter instead of env
           api-key: ${{ secrets.NVIDIA_NIM_API_KEY }}
