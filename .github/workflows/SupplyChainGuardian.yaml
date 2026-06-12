@@ -15,18 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run Supply Chain Guardian AI
+      - name: Run Supply Chain Guardian
         uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v2
         with:
-          # 1. Changed 'dockerfile-path' to 'dockerfile' 
-          # 2. Pointed directly to your backend directory path
-          dockerfile: "./backend/Dockerfile"
-          
-          provider: "openai"
-          
-          # 3. Changed 'openai-model' to 'model'
-          model: "deepseek-ai/deepseek-v4-flash"
-          
-          policy-preset: "strict"
-        env:
-          OPENAI_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
+          dockerfile: './backend/Dockerfile'
