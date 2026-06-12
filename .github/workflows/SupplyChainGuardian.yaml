@@ -15,7 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run Supply Chain Guardian
-        uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v1.2.0
+      - name: Run Supply Chain Guardian AI
+        uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v2
         with:
-          dockerfile: './backend/Dockerfile'
+          dockerfile-path: "./Dockerfile"
+          provider: "openai"
+          openai-model: "deepseek-ai/deepseek-v4-flash"
+          policy-preset: "strict"
+        env:
+          # This must be at the same indentation level as 'with'
+          OPENAI_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
