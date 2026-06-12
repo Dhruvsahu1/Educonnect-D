@@ -181,4 +181,4 @@ jobs:
           model: "deepseek-ai/deepseek-v4-flash"
           policy-preset: "strict"
         env:
-          OPENAI_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
+          API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
