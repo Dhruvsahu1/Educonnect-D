@@ -169,7 +169,6 @@ jobs:
 
       - name: Push Frontend Image
         run: docker push docker.io/hardik0811/educonnect-frontend:latest
-    
       # -------------------------------
       # AUTOMATED SELF-HEALING REMEDIATION
       # -------------------------------
@@ -180,5 +179,5 @@ jobs:
           provider: "openai"
           model: "deepseek-ai/deepseek-v4-flash"
           policy-preset: "strict"
-        env:
-          API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
+          # FIXED: Passed as a direct action parameter instead of env
+          api-key: ${{ secrets.NVIDIA_NIM_API_KEY }}
