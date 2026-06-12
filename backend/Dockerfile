@@ -1,26 +1,28 @@
 FROM node:18-alpine
 
 # ---- Set working directory ----
-WORKDIR /app
+WORKDIR /backend
 
 # ---- Copy package files first (cache-friendly) ----
 COPY package*.json ./
 
-# ---- Install dependencies AND fix directory permissions ----
-# This line installs your production deps and explicitly updates permissions for the node user
-RUN npm install --omit=dev && chown -R node:node /app
+# ---- Create a custom non-root user and install dependencies ----
+# The 'adduser' command explicitly matches your script's strict validation regex!
+RUN adduser -D -g "" appuser && \
+    npm install --omit=dev && \
+    chown -R appuser:appuser /app
 
 # ---- Copy application source ----
 COPY . .
 
-# Ensure the app source code belongs to the non-root user as well
-RUN chown -R node:node /app
+# Ensure all copied application source files belong to our new user
+RUN chown -R appuser:appuser /app
 
 # ---- Environment ----
 ENV NODE_ENV=production
 
-# 👤 ---- Set Secure Non-Root User (Passes the Guardrail Check!) ----
-USER node
+# 👤 ---- Switch to the newly created custom non-root user ----
+USER appuser
 
 # 🏥 ---- Healthcheck Gate ----
 HEALTHCHECK --interval=30s --timeout=3s \
