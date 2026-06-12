@@ -177,7 +177,7 @@ jobs:
         with:
           dockerfile: "./backend/Dockerfile"
           provider: "openai"
-          model: "google/gemma-4-31b-it"
+          model: "moonshotai/kimi-k2.6"
           policy-preset: "strict"
           # FIXED: Passed as a direct action parameter instead of env
           api-key: ${{ secrets.NVIDIA_NIM_API_KEY }}
