@@ -1,22 +1,22 @@
 FROM node:18-alpine
 
-# ---- Set working directory ----
+# 📂 ---- Set working directory to backend ----
 WORKDIR /backend
 
 # ---- Copy package files first (cache-friendly) ----
 COPY package*.json ./
 
 # ---- Create a custom non-root user and install dependencies ----
-# The 'adduser' command explicitly matches your script's strict validation regex!
+# FIXED: Changed /app to /backend on line 13 to match our WORKDIR!
 RUN adduser -D -g "" appuser && \
     npm install --omit=dev && \
-    chown -R appuser:appuser /app
+    chown -R appuser:appuser /backend
 
 # ---- Copy application source ----
 COPY . .
 
 # Ensure all copied application source files belong to our new user
-RUN chown -R appuser:appuser /app
+RUN chown -R appuser:appuser /backend
 
 # ---- Environment ----
 ENV NODE_ENV=production
