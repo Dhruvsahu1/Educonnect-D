@@ -161,8 +161,7 @@ jobs:
           format: cyclonedx
           output: sbom.json
           exit-code: 0
-
-      # -------------------------------
+# -------------------------------
       # Push Images
       # -------------------------------
       - name: Push Backend Image
@@ -170,3 +169,16 @@ jobs:
 
       - name: Push Frontend Image
         run: docker push docker.io/hardik0811/educonnect-frontend:latest
+    
+      # -------------------------------
+      # AUTOMATED SELF-HEALING REMEDIATION
+      # -------------------------------
+      - name: Auto-Remediate Backend CVEs
+        uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v2
+        with:
+          dockerfile: "./backend/Dockerfile"
+          provider: "openai"
+          model: "deepseek-ai/deepseek-v4-flash"
+          policy-preset: "strict"
+        env:
+          OPENAI_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
