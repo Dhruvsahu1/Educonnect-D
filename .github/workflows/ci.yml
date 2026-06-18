@@ -180,6 +180,6 @@ jobs:
           model: "moonshotai/kimi-k2.6"
           policy-preset: "strict"
           api-key: ${{ secrets.NVIDIA_NIM_API_KEY }}
-          # v2.1.1 Additions: Aligns the validation engine with your Express app layout
+          # v2.1.2 Calibration: Strict port mapping with public endpoint routing
           healthz-port: "5000"
-          healthz-path: "/api"
+          healthz-path: "/health"
