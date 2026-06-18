@@ -1,9 +1,8 @@
 name: Infracost action
-
 on:
   pull_request:
     branches:
-      - main
+      
       - implementing-IAC
 
 jobs:
