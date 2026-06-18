@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secrets
+  namespace: default
+type: Opaque
+stringData:
+  JWT_SECRET: "educonnect-jwt-secret-change-in-production"
+  JWT_REFRESH_SECRET: "educonnect-123"
+  AWS_ACCESS_KEY_ID: ""
+  AWS_SECRET_ACCESS_KEY: ""
+  AWS_REGION: "us-east-2"
+  S3_BUCKET_NAME: ""
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: default
+  labels:
+    app: backend
+    tier: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        tier: api
+    spec:
+      containers:
+      - name: backend
+        # Your action engine will dynamically replace this with your patched tag during smoke tests
+        image: docker.io/hardik0811/educonnect:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "5000"
+        - name: MONGO_URI
+          value: "mongodb://mongo:27017/mern"
+        
+        # 💡 Fail-safe pipeline validation switch
+        # Bypasses database connection halts when spinning up in ephemeral KinD sandboxes
+        - name: SKIP_DB
+          value: "true"
+
+        # JWT Configuration
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: JWT_SECRET
+        - name: JWT_REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: JWT_REFRESH_SECRET
+
+        # Application Configuration Layer
+        - name: FRONTEND_URL
+          value: "*"
+        - name: COOKIE_SECURE
+          value: "false"
+        - name: COOKIE_SAME_SITE
+          value: "lax"
+
+        # AWS Cloud Storage Infrastructure Secrets
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_REGION
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: AWS_REGION
+        - name: S3_BUCKET_NAME
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: S3_BUCKET_NAME
+
+        # Resource Constraints
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+
+        # Health Validation Gates
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: default
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
