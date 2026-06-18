@@ -169,9 +169,9 @@ jobs:
 
       - name: Push Frontend Image
         run: docker push docker.io/hardik0811/educonnect-frontend:latest
-      # -------------------------------
+# -------------------------------------------------------------------
       # AUTOMATED SELF-HEALING REMEDIATION
-      # -------------------------------
+      # -------------------------------------------------------------------
       - name: Auto-Remediate Backend CVEs
         uses: barbaria888/SupplyChain-Guardian-AI-Github_Action@v2
         with:
@@ -179,5 +179,7 @@ jobs:
           provider: "openai"
           model: "moonshotai/kimi-k2.6"
           policy-preset: "strict"
-          # FIXED: Passed as a direct action parameter instead of env
           api-key: ${{ secrets.NVIDIA_NIM_API_KEY }}
+          # v2.1.1 Additions: Aligns the validation engine with your Express app layout
+          healthz-port: "5000"
+          healthz-path: "/"
