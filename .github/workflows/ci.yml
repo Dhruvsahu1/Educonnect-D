@@ -161,7 +161,7 @@ jobs:
           format: cyclonedx
           output: sbom.json
           exit-code: 0
-# -------------------------------
+      # -------------------------------
       # Push Images
       # -------------------------------
       - name: Push Backend Image
