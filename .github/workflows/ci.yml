@@ -182,4 +182,4 @@ jobs:
           api-key: ${{ secrets.NVIDIA_NIM_API_KEY }}
           # v2.1.1 Additions: Aligns the validation engine with your Express app layout
           healthz-port: "5000"
-          healthz-path: "/"
+          healthz-path: "/api"
